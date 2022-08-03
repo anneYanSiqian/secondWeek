@@ -1,0 +1,23 @@
+/**
+ * @param {string[]} cpdomains
+ * @return {string[]}
+ */
+var subdomainVisits = function(cpdomains) {
+    const map = new Map();
+    const ans = [];
+    for (let cpdomain of cpdomains) {
+        const cp = +cpdomain.split(' ')[0];
+        const domains = cpdomain.split(' ')[1];
+        const domainsArr = domains.split('.');
+        while(domainsArr.length) {
+            const domainStr = domainsArr.join('.');
+            if (map.has(domainStr)) map.set(domainStr, map.get(domainStr)+cp);
+            else map.set(domainStr, cp);
+            domainsArr.shift();
+        }
+    }
+    for (const [key, value] of map) {
+        ans.push(`${value} ${key}`);
+    }
+    return ans;
+};
