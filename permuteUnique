@@ -1,0 +1,31 @@
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permuteUnique = function(nums) {
+    const ans = [];
+    const chosen = [];
+    const used = [];
+    const map = new Map();
+    var findPermuteUnique = function(index) {
+        if (nums.length === index) {
+            ans.push(chosen.slice());
+            return;
+        }
+        for (let i=0; i<nums.length; i++) {
+            if (!used[i]) {
+                used[i] = true;
+                chosen.push(nums[i]);
+                findPermuteUnique(index+1);
+                chosen.pop();
+                used[i] = false;
+            }
+        }
+    }
+    findPermuteUnique(0);
+    for (let i=0; i<ans.length; i++) {
+        const a = ans[i].toString();
+        if (!map.has(a)) map.set(a, ans[i]);
+    }
+    return [...map.values()];
+};
